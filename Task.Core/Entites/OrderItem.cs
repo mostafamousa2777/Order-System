@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Taskk.Core.Entites
+{
+    public class OrderItem:BastEntity<int>
+    {
+        /*
+         OrderItemId, OrderId, ProductId, Quantity, UnitPrice, 
+          Discount
+
+         */
+
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public double Quantity { get; set; }
+        public double UnitPrice { get; set; }
+        public double Discount { get; set; }
+       
+        public Order Order { get; set; }
+        public Product Product { get; set; }
+
+
+
+
+
+
+
+
+
+
+    }
+}
