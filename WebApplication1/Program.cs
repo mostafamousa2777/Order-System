@@ -5,6 +5,7 @@ using Taskk.Core.Interfaces.Services;
 using Taskk.Repository.Data;
 using Taskk.Repository.Repos;
 using Taskk.Services;
+using WebApplication1.Extensions;
 
 namespace WebApplication1
 {
@@ -16,31 +17,10 @@ namespace WebApplication1
 
             // Add services to the container.
 
-            builder.Services.AddDbContext<DataContext>(o => {
-
-                o.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
-            });
-            builder.Services.AddDbContext<IdentityDataContext>(o => {
-
-                o.UseSqlServer(builder.Configuration.GetConnectionString("IdentitySqlConnection"));
-            });
-            builder.Services.AddScoped<ICustomerService, CustomerService>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-
-
-
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-
-            builder.Services.AddControllers();
-            builder.Services.AddAuthorization();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
           
+
+
+            builder.Services.AddAplicationService(builder.Configuration);
 
             var app = builder.Build();
 
