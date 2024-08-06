@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Taskk.Core.Entites.Identity;
+using Taskk.Core.Interfaces;
 using Taskk.Core.Interfaces.Repos;
 using Taskk.Core.Interfaces.Services;
 using Taskk.Repository.Data;
@@ -30,9 +31,15 @@ namespace WebApplication1.Extensions
 
 
             Services.AddScoped<ICustomerService, CustomerService>();
+
             Services.AddScoped<IOrderService, OrderService>();
             Services.AddScoped<IProductService, ProductService>();
             Services.AddScoped<IInvoiceService, InvoiceService>();
+
+            Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<ITokenService, TokenService>();
+
+
 
 
 
@@ -41,24 +48,23 @@ namespace WebApplication1.Extensions
 
 
             Services.AddControllers();
-            Services.AddAuthentication(
-                option => {
-                    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    option.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
-                    option.DefaultScheme= JwtBearerDefaults.AuthenticationScheme;
+            //Services.AddAuthentication(
+            //    option => {
+            //        option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        option.DefaultChallengeScheme= JwtBearerDefaults.AuthenticationScheme;
+            //        option.DefaultScheme= JwtBearerDefaults.AuthenticationScheme;
                     
                     
                     
-                    }
+            //        }
 
 
 
 
 
-                );
+             //   );
          
-            Services.AddEndpointsApiExplorer();
-            Services.AddSwaggerGen();
+         
             return Services;
         }
     }

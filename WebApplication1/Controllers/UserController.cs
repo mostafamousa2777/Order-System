@@ -23,37 +23,60 @@ namespace WebApplication1.Controllers
             _configuration = configuration;
         }
         [HttpPost("Register")]
-        public async Task<ActionResult> Register([FromBody] RegisterUser registerUser) {
-            var userExist=await _userManager.FindByEmailAsync(registerUser.Email);
-            if (userExist!=null) {
-                return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status="Error",Message="User alredy Exsist"}
-                    );
-            
-            }
-            ApplicationUser user = new()
+        public async Task<ActionResult> Register([FromBody] RegisterUser registerUser,string role) {
+            if (await _roleManager.RoleExistsAsync(role))
             {
-                Email = registerUser.Email,
-                UserName = registerUser.UserName,
-                SecurityStamp = Guid.NewGuid().ToString(),
+                var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
+                if (userExist != null)
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden,
+                        new Response { Status = "Error", Message = "User alredy Exsist" }
+                        );
 
-            };
-            var result=await _userManager.CreateAsync(user,registerUser.Password);
+                }
+                ApplicationUser user = new()
+                {
+                    Email = registerUser.Email,
+                    UserName = registerUser.UserName,
+                    SecurityStamp = Guid.NewGuid().ToString(),
 
-            if (result.Succeeded)
-            {
-                return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "good", Message = "User Created" }
-                    );
+                };
+                var result = await _userManager.CreateAsync(user, registerUser.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, role);
+                    return StatusCode(StatusCodes.Status200OK,
+                        new Response { Status = "good", Message = "User Created" }
+                        );
+
+                }
+
+                
+
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                            new Response { Status = "Error", Message = "User faild to Create" }
+                            );
+
+
+                }
+
 
             }
             else {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                        new Response { Status = "Error", Message = "User faild to Create" }
-                        );
+
+                return StatusCode(StatusCodes.Status400BadRequest,
+                             new Response { Status = "Error", Message = "User role does not to Exist" }
+                             );
 
 
             }
+
+
+
+          
+          
         
         
         }

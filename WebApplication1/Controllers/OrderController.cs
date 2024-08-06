@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Taskk.Core.DataTransferObjects;
 using Taskk.Core.Entites;
@@ -16,7 +17,9 @@ namespace WebApplication1.Controllers
         {
             _service = service;
         }
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Admin")]
         [HttpGet("AllOrders")]
+        
         public async Task<ActionResult<IEnumerable<OrderToReturnDto>>> GetAllOrders() 
             => Ok(await _service.GetAllOrderAsync());
         [HttpGet("Order")]

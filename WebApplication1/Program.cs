@@ -21,6 +21,8 @@ namespace WebApplication1
 
 
             builder.Services.AddAplicationService(builder.Configuration);
+            builder.Services.AddIdentityService(builder.Configuration);
+            builder.Services.AddSwaggerService();
 
             var app = builder.Build();
 
@@ -32,6 +34,7 @@ namespace WebApplication1
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();    
 
             app.UseAuthorization();
 
